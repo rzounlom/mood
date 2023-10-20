@@ -6,7 +6,48 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
+}
+
+model User {
+  id         String   @id @default(uuid())
+  createdAt  DateTime @default(now())
+  updateedAt DateTime @updatedAt
+
+  clerkId String         @unique
+  email   String         @unique
+  entries JournalEntry[]
+}
+
+model JournalEntry {
+  id         String   @id @default(uuid())
+  createdAt  DateTime @default(now())
+  updateedAt DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  content String @db.Text //ensures we don't run out of space for journal entries
+
+  analysis Analysis? //make optional so we can create a JournalEntry without creating an Analysis and vise versa
+
+  @@unique([userId]) //index the relationship between user and journal entry so we don't need to scan the entire db
+}
+
+model Analysis {
+  id         String   @id @default(uuid())
+  createdAt  DateTime @default(now())
+  updateedAt DateTime @updatedAt
+
+  entryId String
+  entry   JournalEntry @relation(fields: [entryId], references: [id])
+
+  mood     String
+  summary  String  @db.Text
+  color    String
+  negative Boolean
+
+  @@unique([entryId])
 }
