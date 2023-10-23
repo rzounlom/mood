@@ -14,7 +14,7 @@ datasource db {
 model User {
   id         String   @id @default(uuid())
   createdAt  DateTime @default(now())
-  updateedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @default(now())
 
   clerkId String         @unique
   email   String         @unique
@@ -24,7 +24,7 @@ model User {
 model JournalEntry {
   id         String   @id @default(uuid())
   createdAt  DateTime @default(now())
-  updateedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @default(now())
 
   userId String
   user   User   @relation(fields: [userId], references: [id])
@@ -33,13 +33,13 @@ model JournalEntry {
 
   analysis Analysis? //make optional so we can create a JournalEntry without creating an Analysis and vise versa
 
-  @@unique([userId, id]) //index the relationship between user and journal entry so we don't need to scan the entire db
+  @@unique([userId, id]) //unique compound index the relationship between user and journal entry so we don't need to scan the entire db
 }
 
 model Analysis {
   id         String   @id @default(uuid())
   createdAt  DateTime @default(now())
-  updateedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @default(now())
 
   entryId String
   entry   JournalEntry @relation(fields: [entryId], references: [id])
