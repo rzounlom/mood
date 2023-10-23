@@ -1,6 +1,7 @@
 import EntryCard from "@/components/EntryCard";
 import Link from "next/link";
 import NewEntry from "@/components/NewEntry";
+import { analyize } from "@/utils/ai";
 import { getUserFromClerkID } from "@/utils/auth";
 import { prisma } from "@/utils/db";
 
@@ -23,7 +24,6 @@ const getEntries = async () => {
 
 const JournalPage = async () => {
   const data = await getEntries();
-  console.log({ data });
   return (
     <div className="px-6 py-8 bg-zinc-100/50 h-full">
       {" "}
