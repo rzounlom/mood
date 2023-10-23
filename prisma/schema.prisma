@@ -33,7 +33,7 @@ model JournalEntry {
 
   analysis Analysis? //make optional so we can create a JournalEntry without creating an Analysis and vise versa
 
-  @@unique([userId]) //index the relationship between user and journal entry so we don't need to scan the entire db
+  @@unique([userId, id]) //index the relationship between user and journal entry so we don't need to scan the entire db
 }
 
 model Analysis {
