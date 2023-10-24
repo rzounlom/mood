@@ -18,6 +18,7 @@ export const PATCH = async (request: Request, { params }) => {
   });
 
   const analysis = await analyizeEntry(entry.content);
+  console.log("return from analysis call", analysis);
 
   const savedAnalysis = await prisma.entryAnalysis.upsert({
     where: {
@@ -31,5 +32,6 @@ export const PATCH = async (request: Request, { params }) => {
     },
   });
 
+  console.log("saved analysis", savedAnalysis);
   return NextResponse.json({ data: { ...entry, analysis: savedAnalysis } });
 };

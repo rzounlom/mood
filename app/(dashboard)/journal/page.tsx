@@ -1,7 +1,7 @@
 import EntryCard from "@/components/EntryCard";
 import Link from "next/link";
 import NewEntry from "@/components/NewEntry";
-import { analyize } from "@/utils/ai";
+import Question from "@/components/Question";
 import { getUserFromClerkID } from "@/utils/auth";
 import { prisma } from "@/utils/db";
 
@@ -28,6 +28,9 @@ const JournalPage = async () => {
     <div className="px-6 py-8 bg-zinc-100/50 h-full">
       {" "}
       <h1 className="text-4xl mb-12">Journals</h1>
+      <div className="my-8">
+        <Question />
+      </div>
       <div className="grid grid-cols-3 gap-4">
         <NewEntry />
         {data.map((entry) => (

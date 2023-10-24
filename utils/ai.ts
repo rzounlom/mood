@@ -54,20 +54,15 @@ const getPrompt = async (content: any) => {
   return input;
 };
 
-export const analyzeEntry = async (entry: { content: any }) => {
-  const input = await getPrompt(entry.content);
+export const analyizeEntry = async (content: any) => {
+  const input = await getPrompt(content);
   const model = new OpenAI({ temperature: 0, modelName: "gpt-3.5-turbo" });
   const output = await model.call(input);
 
   try {
     return parser.parse(output);
-  } catch (e) {
-    const fixParser = OutputFixingParser.fromLLM(
-      new OpenAI({ temperature: 0, modelName: "gpt-3.5-turbo" }),
-      parser
-    );
-    const fix = await fixParser.parse(output);
-    return fix;
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -90,16 +85,4 @@ export const qa = async (question: string, entries: any[]) => {
   });
 
   return res.output_text;
-};
-
-export const analyizeEntry = async (content: any) => {
-  const input = await getPrompt(content);
-  const model = new OpenAI({ temperature: 0, modelName: "gpt-3.5-turbo" }); //temperature describes variance and how random the prompt results will be; higher temp means more variance(createive); lower means less variance and more factual
-  const result = await model.call(input);
-
-  try {
-    return parser.parse(result);
-  } catch (error) {
-    console.log(error);
-  }
 };

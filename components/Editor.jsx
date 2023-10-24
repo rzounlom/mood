@@ -17,7 +17,6 @@ const Editor = ({ entry }) => {
   //   router.push('/journal')
   // }
 
-  console.log({ currentEntry });
   useAutosave({
     data: text,
     onSave: async (_text) => {
@@ -50,9 +49,7 @@ const Editor = ({ entry }) => {
       <div className="border-l border-black/5">
         <div
           style={{
-            background: currentEntry.analysis.color
-              ? currentEntry.analysis?.color
-              : blue,
+            background: currentEntry?.analysis.color,
           }}
           className="h-[100px] bg-blue-600 text-white p-8"
         >
